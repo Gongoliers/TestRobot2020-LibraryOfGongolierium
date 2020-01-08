@@ -76,6 +76,11 @@ public class Robot extends TimedRobot {
    
   }
 
+  @Override
+  public void teleopInit(){
+    Parts.gyro.reset();
+  }
+
   /**
    * This function is called periodically during operator control.
    */

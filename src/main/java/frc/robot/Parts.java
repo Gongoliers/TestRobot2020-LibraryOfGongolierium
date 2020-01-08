@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 
 /**
@@ -29,12 +30,12 @@ public class Parts {
 
     public static void initialize(){
         leftMotor = new SpeedControllerGroup(
-            new WPI_TalonSRX(RobotMap.DRIVE_LEFT_1),
-            new WPI_TalonSRX(RobotMap.DRIVE_LEFT_2)
+            new VictorSP(RobotMap.DRIVE_LEFT_1)//,
+            // new WPI_TalonSRX(RobotMap.DRIVE_LEFT_2)
         );
         rightMotor = new SpeedControllerGroup(
-            new WPI_TalonSRX(RobotMap.DRIVE_RIGHT_1),
-            new WPI_TalonSRX(RobotMap.DRIVE_RIGHT_2)
+            new VictorSP(RobotMap.DRIVE_RIGHT_1)//,
+            // new WPI_TalonSRX(RobotMap.DRIVE_RIGHT_2)
         );
 
         // TODO: verify
@@ -44,9 +45,11 @@ public class Parts {
         gyro = new AnalogGyro(RobotMap.GYRO);
         gyro.calibrate();
         driveEncoders = Arrays.asList(
-            new Encoder(RobotMap.ENCODER_A, RobotMap.ENCODER_B)
+            new Encoder(RobotMap.ENCODER_A, RobotMap.ENCODER_B),
+            new Encoder(RobotMap.ENCODER2_A, RobotMap.ENCODER2_B)
         );
         driveEncoders.get(0).setDistancePerPulse(1 / 8443.0);
+        driveEncoders.get(1).setDistancePerPulse(1 / 8443.0);
     }
 
 }

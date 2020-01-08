@@ -13,6 +13,7 @@ import com.thegongoliers.paths.SimplePath;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.buttons.Trigger;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.OperateDrivetrain;
@@ -22,26 +23,31 @@ import frc.robot.commands.OperateDrivetrain;
  */
 public class Controls {
 
-    public static XboxController driveStick;
+    public static Joystick driveStick;
 
     public static double getForwardAxis(){
         if (driveStick == null) return 0;
-        return driveStick.getY(Hand.kLeft);
+        return driveStick.getY();
     }
 
     public static double getRotationAxis(){
         if (driveStick == null) return 0;
-        return driveStick.getX(Hand.kLeft);
+        return driveStick.getZ();
     }
 
     public static void initialize(){
-        driveStick = new XboxController(0);
+        driveStick = new Joystick(0);
 
 
         SimplePath path = new SimplePath();
-        path.addRotation(90);
+        // path.addStraightAway(20);
+        path.addRotation(20);
+        // path.addStraightAway(17.5);
 
-        // SmartDashboard.putData("Rotate 90", new FollowPathCommand(Robot.drivetrain, Robot.drivetrain.getModularDrivetrain(), path));
+        JoystickButton btn = new JoystickButton(driveStick, 1);
+        btn.whenPressed(new FollowPathCommand(Robot.drivetrain, Robot.drivetrain.getModularDrivetrain(), path));
+
+        SmartDashboard.putData("Rotate 90", new FollowPathCommand(Robot.drivetrain, Robot.drivetrain.getModularDrivetrain(), path));
     
         Trigger joystickMoved = new Trigger(){
         
