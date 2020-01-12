@@ -27,7 +27,7 @@ public class Controls {
 
     public static double getForwardAxis(){
         if (driveStick == null) return 0;
-        return driveStick.getY();
+        return -driveStick.getY();
     }
 
     public static double getRotationAxis(){
@@ -38,10 +38,10 @@ public class Controls {
     public static void initialize(){
         driveStick = new Joystick(0);
 
-
         SimplePath path = new SimplePath();
         // path.addStraightAway(20);
-        path.addRotation(20);
+        path.addRotation(90);
+        path.addRotation(-90);
         // path.addStraightAway(17.5);
 
         JoystickButton btn = new JoystickButton(driveStick, 1);

@@ -27,16 +27,16 @@ public class Drivetrain extends Subsystem {
     modularDrivetrain = ModularDrivetrain.from(differentialDrive);
 
     StabilityModule stability = new StabilityModule(Parts.gyro, 0.02, 0);
-    stability.setValue(StabilityModule.VALUE_THRESHOLD, 2.0);
+    stability.setValue(StabilityModule.VALUE_THRESHOLD, 0.05);
 
-    PathFollowerModule pathFollow = new PathFollowerModule(Parts.gyro, Parts.driveEncoders, 0.1, 0.05);
-    pathFollow.setValue(PathFollowerModule.VALUE_FORWARD_THRESHOLD, 0.5);
+    PathFollowerModule pathFollow = new PathFollowerModule(Parts.gyro, Parts.driveEncoders, 0.1, 0.02);
+    pathFollow.setValue(PathFollowerModule.VALUE_FORWARD_THRESHOLD, 2.0);
 
 
     modularDrivetrain.setModules(
       new PrecisionModule(0.5),
       stability,
-      new PowerEfficiencyModule(2),
+      // new PowerEfficiencyModule(0.5),
       new SpeedConstraintModule(1, true),
       pathFollow
     );

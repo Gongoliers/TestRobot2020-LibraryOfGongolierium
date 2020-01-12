@@ -39,8 +39,8 @@ public class Parts {
         );
 
         // TODO: verify
-        leftMotor.setInverted(true);
-        rightMotor.setInverted(true);
+        // leftMotor.setInverted(true);
+        // rightMotor.setInverted(true);
 
         gyro = new AnalogGyro(RobotMap.GYRO);
         gyro.calibrate();
