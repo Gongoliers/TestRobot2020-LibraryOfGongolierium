@@ -7,9 +7,14 @@
 
 package frc.robot;
 
+import com.thegongoliers.commands.FollowPathCommand;
+import com.thegongoliers.paths.SimplePath;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.buttons.Trigger;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.OperateDrivetrain;
 
 /**
@@ -32,24 +37,22 @@ public class Controls {
     public static void initialize(){
         driveStick = new Joystick(0);
 
-        // SimplePath path = new SimplePath();
-        // path.addRotation(90);
-        // path.addRotation(-90);
+        SimplePath path = new SimplePath();
+        path.addStraightAway(4);
+        path.addRotation(90);
 
-        // JoystickButton btn = new JoystickButton(driveStick, 1);
-        // btn.whenPressed(new FollowPathCommand(Robot.drivetrain, Robot.drivetrain.getModularDrivetrain(), path));
-
-        // SmartDashboard.putData("Rotate 90", new FollowPathCommand(Robot.drivetrain, Robot.drivetrain.getModularDrivetrain(), path));
+        JoystickButton btn = new JoystickButton(driveStick, 1);
+        btn.toggleWhenActive(new FollowPathCommand(Robot.drivetrain, Robot.drivetrain.getModularDrivetrain(), path));
     
-        Trigger joystickMoved = new Trigger(){
+        // Trigger joystickMoved = new Trigger(){
         
-            @Override
-            public boolean get() {
-                return driveStick.getY(Hand.kLeft) > 0.1 || driveStick.getX(Hand.kLeft) > 0.1;
-            }
-        };
+        //     @Override
+        //     public boolean get() {
+        //         return driveStick.getY(Hand.kLeft) > 0.1 || driveStick.getX(Hand.kLeft) > 0.1;
+        //     }
+        // };
     
-        joystickMoved.whenActive(new OperateDrivetrain());
+        // joystickMoved.whenActive(new OperateDrivetrain());
 
     }
 

@@ -38,8 +38,8 @@ public class Parts {
 
         gyro = new AnalogGyro(RobotMap.GYRO);
         gyro.calibrate();
-        leftEncoder = new Encoder(RobotMap.ENCODER_A, RobotMap.ENCODER_B);
-        rightEncoder = new Encoder(RobotMap.ENCODER2_A, RobotMap.ENCODER2_B);
+        leftEncoder = new Encoder(RobotMap.ENCODER_B, RobotMap.ENCODER_A);
+        rightEncoder = new Encoder(RobotMap.ENCODER2_B, RobotMap.ENCODER2_A);
 
         // Feet
         leftEncoder.setDistancePerPulse(1/1024.0 * 12/50.0 * 24/50.0 * 6 * Math.PI / 12.0);

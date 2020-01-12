@@ -26,27 +26,29 @@ public class Drivetrain extends Subsystem {
 
   public Drivetrain(){
     DifferentialDrive differentialDrive = new DifferentialDrive(Parts.leftMotor, Parts.rightMotor);
+    differentialDrive.setDeadband(0.08);
     modularDrivetrain = ModularDrivetrain.from(differentialDrive);
 
-    var stability = new StabilityModule(Parts.gyro, 0.02, 0);
+    var stability = new StabilityModule(Parts.gyro, 0.02, 0.5);
     stability.setTurnThreshold(0.05);
 
-    var pathFollow = new PathFollowerModule(Parts.gyro, List.of(Parts.leftEncoder, Parts.rightEncoder), 0.1, 0.02);
-    pathFollow.setForwardTolerance(0.5); // 1/4 feet
+    var pathFollow = new PathFollowerModule(Parts.gyro, List.of(Parts.leftEncoder, Parts.rightEncoder), 0.5, 0.02);
+    pathFollow.setForwardTolerance(0.6); // 1/2 feet
     pathFollow.setTurnTolerance(1); // 1 degree
 
     // You can use the voltage control module in place of the speed constraint module if you know the max voltage you should drive at
     var voltageControl = new VoltageControlModule(12);
 
-    var tractionControl = new TractionControlModule(Parts.leftEncoder, Parts.rightEncoder, 0.1, 0.1);
+    var tractionControl = new TractionControlModule(Parts.leftEncoder, Parts.rightEncoder, 0.001, 0.1);
 
     // Experiment with the order of these for the best driving
     modularDrivetrain.setModules(
       stability,
-      new PowerEfficiencyModule(0.1),
       pathFollow,
-      tractionControl,
-      voltageControl
+      // tractionControl,
+      new PowerEfficiencyModule(0.2),
+      voltageControl,
+      new SpeedConstraintModule(0.3, false)
     );
   }
 
