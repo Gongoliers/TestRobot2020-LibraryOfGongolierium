@@ -10,8 +10,6 @@ package frc.robot;
 import java.util.Arrays;
 import java.util.List;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedController;
@@ -26,7 +24,7 @@ public class Parts {
 
     public static SpeedController leftMotor, rightMotor;
     public static Gyro gyro;
-    public static List<Encoder> driveEncoders;
+    public static Encoder leftEncoder, rightEncoder;
 
     public static void initialize(){
         leftMotor = new SpeedControllerGroup(
@@ -38,18 +36,14 @@ public class Parts {
             // new WPI_TalonSRX(RobotMap.DRIVE_RIGHT_2)
         );
 
-        // TODO: verify
-        // leftMotor.setInverted(true);
-        // rightMotor.setInverted(true);
-
         gyro = new AnalogGyro(RobotMap.GYRO);
         gyro.calibrate();
-        driveEncoders = Arrays.asList(
-            new Encoder(RobotMap.ENCODER_A, RobotMap.ENCODER_B),
-            new Encoder(RobotMap.ENCODER2_A, RobotMap.ENCODER2_B)
-        );
-        driveEncoders.get(0).setDistancePerPulse(1 / 8443.0);
-        driveEncoders.get(1).setDistancePerPulse(1 / 8443.0);
+        leftEncoder = new Encoder(RobotMap.ENCODER_A, RobotMap.ENCODER_B);
+        rightEncoder = new Encoder(RobotMap.ENCODER2_A, RobotMap.ENCODER2_B);
+
+        // Feet
+        leftEncoder.setDistancePerPulse(1/1024.0 * 12/50.0 * 24/50.0 * 6 * Math.PI / 12.0);
+        rightEncoder.setDistancePerPulse(1/1024.0 * 12/50.0 * 24/50.0 * 6 * Math.PI / 12.0);
     }
 
 }

@@ -60,7 +60,7 @@ dependencies {
 
     testImplementation 'junit:junit:4.12'
 
-    implementation 'com.github.Gongoliers:Library-of-Gongolierium:v4.0-rc1'
+    implementation 'com.github.Gongoliers:Library-of-Gongolierium:v4.0.0'
 
     // Enable simulation gui support. Must check the box in vscode to enable support
     // upon debugging

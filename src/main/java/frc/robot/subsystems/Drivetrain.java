@@ -7,6 +7,8 @@
 
 package frc.robot.subsystems;
 
+import java.util.List;
+
 import com.thegongoliers.output.drivetrain.*;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -26,19 +28,25 @@ public class Drivetrain extends Subsystem {
     DifferentialDrive differentialDrive = new DifferentialDrive(Parts.leftMotor, Parts.rightMotor);
     modularDrivetrain = ModularDrivetrain.from(differentialDrive);
 
-    StabilityModule stability = new StabilityModule(Parts.gyro, 0.02, 0);
-    stability.setValue(StabilityModule.VALUE_THRESHOLD, 0.05);
+    var stability = new StabilityModule(Parts.gyro, 0.02, 0);
+    stability.setTurnThreshold(0.05);
 
-    PathFollowerModule pathFollow = new PathFollowerModule(Parts.gyro, Parts.driveEncoders, 0.1, 0.02);
-    pathFollow.setValue(PathFollowerModule.VALUE_FORWARD_THRESHOLD, 2.0);
+    var pathFollow = new PathFollowerModule(Parts.gyro, List.of(Parts.leftEncoder, Parts.rightEncoder), 0.1, 0.02);
+    pathFollow.setForwardTolerance(0.5); // 1/4 feet
+    pathFollow.setTurnTolerance(1); // 1 degree
 
+    // You can use the voltage control module in place of the speed constraint module if you know the max voltage you should drive at
+    var voltageControl = new VoltageControlModule(12);
 
+    var tractionControl = new TractionControlModule(Parts.leftEncoder, Parts.rightEncoder, 0.1, 0.1);
+
+    // Experiment with the order of these for the best driving
     modularDrivetrain.setModules(
-      new PrecisionModule(0.5),
       stability,
-      // new PowerEfficiencyModule(0.5),
-      new SpeedConstraintModule(1, true),
-      pathFollow
+      new PowerEfficiencyModule(0.1),
+      pathFollow,
+      tractionControl,
+      voltageControl
     );
   }
 
@@ -50,8 +58,8 @@ public class Drivetrain extends Subsystem {
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Heading", Parts.gyro.getAngle());
-    SmartDashboard.putNumber("Distance", Parts.driveEncoders.get(0).getDistance());
-    SmartDashboard.putNumber("Speed", Parts.driveEncoders.get(0).getRate());
+    SmartDashboard.putNumber("Distance", (Parts.leftEncoder.getDistance() + Parts.rightEncoder.getDistance()) / 2);
+    SmartDashboard.putNumber("Speed", (Parts.leftEncoder.getRate() + Parts.rightEncoder.getRate()) / 2);
   }
 
   public void drive(double forward, double turn){
