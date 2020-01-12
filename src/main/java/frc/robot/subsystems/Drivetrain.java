@@ -43,12 +43,12 @@ public class Drivetrain extends Subsystem {
 
     // Experiment with the order of these for the best driving
     modularDrivetrain.setModules(
-      stability,
+      // stability,
       pathFollow,
       // tractionControl,
-      new PowerEfficiencyModule(0.2),
-      voltageControl,
-      new SpeedConstraintModule(0.3, false)
+      new PowerEfficiencyModule(2)
+      // voltageControl,
+      // new SpeedConstraintModule(0.3, false)
     );
   }
 
